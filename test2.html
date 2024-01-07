@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>澎湖公車站牌地圖</title>
+  <style>
+    #map {
+      height: 700px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>澎湖公車站牌地圖</h1>
+  <div id="map"></div>
+
+  <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 23.5697, lng: 119.5793},
+        zoom: 12
+      });
+
+      // 公車站牌的座標位置
+      var stations = [
+  { name: '馬公總站', location: { lat: 23.5675381521504, lng: 119.56438862367058 }},
+  { name: '惠民醫院站', location: { lat: 23.56949317174456, lng: 119.56917991534476 }},
+  { name: '北辰市場站', location: { lat: 23.570225819911716, lng: 119.57122153901541 }},
+  { name: '陽明站', location: { lat: 23.5719236723256, lng: 119.5749521865086 }},
+  { name: '林森路南站', location: { lat: 23.573073147587632, lng: 119.57713845436042 }},
+  { name: '林森路北站', location: { lat: 23.57541864559125, lng: 119.57797353901573 }},
+  { name: '澎湖科技大學站', location: { lat: 23.57438976922724, lng: 119.57985953460236 }},
+  { name: '三多路站', location: { lat: 23.57463597061213, lng: 119.5771316219097 }},
+  { name: '中興國小站', location: { lat: 23.5756743121072, lng: 119.57540192923092 }},
+  { name: '龍行新城站', location: { lat: 23.576359166392947, lng: 119.57275 }},
+  { name: '山寮站', location: { lat: 23.578194542841686, lng: 119.57739214681725 }},
+  { name: '西衛里東站', location: { lat: 23.579834326540187, lng: 119.57924172883621 }},
+  { name: '西衛里西站', location: { lat: 23.58096147284951, lng: 119.57672282737785 }},
+  { name: '重光東站', location: { lat: 23.582505635259647, lng: 119.57306782737783 }},
+  { name: '重光威靈殿站', location: { lat: 23.584473297678823, lng: 119.57140726785204 }},
+  { name: '重光站', location: { lat: 23.582921900445545, lng: 119.57132262825588 }},
+  { name: '重光南站', location: { lat: 23.58190051309897, lng: 119.57144034723414 }},
+  { name: '光榮里上站', location: { lat: 23.577809642298206, lng: 119.57134999668801 }},
+  { name: '光榮里下站', location: { lat: 23.575851478594387, lng: 119.57109581017951 }},
+  { name: '文光國中站', location: { lat: 23.574354315032796, lng: 119.57012253901564 }},
+  { name: '後備司令部站', location: { lat: 23.568332656498537, lng: 119.56609026785188 }},
+  { name: '中正路站', location: { lat: 23.56609882211793, lng: 119.56531831875029 }},
+  { name: '澎醫急診室站', location: { lat: 23.565006185112146, lng: 119.56597145767239 }},
+  { name: '澎湖醫院站', location: { lat: 23.56439285406662, lng: 119.56515742232065 }},
+  { name: '馬公商港站', location: { lat: 23.56382100018398, lng: 119.56400543716205 }},
+  { name: '馬公總站', location: { lat: 23.567557820023513, lng: 119.56444226785155 }}
+];
+	var icon = {
+        url: 'https://cdn-icons-png.flaticon.com/128/1042/1042263.png', // 圖示 URL
+        scaledSize: new google.maps.Size(40, 40) // 圖示大小
+      };
+	  
+	  var infowindow = new google.maps.InfoWindow();
+     // 將每個站牌標記在地圖上
+		stations.forEach(function(stop) {
+			var marker = new google.maps.Marker({
+				position: stop.location,
+				map: map,
+				title: stop.name,
+				icon: icon
+				});
+
+		marker.addListener('click', function () {
+				infowindow.setContent(stop.name);
+				infowindow.open(map, this); // 使用 this 取代 marker
+			});
+		});
+	   // 連接每個車站的路線
+		var pathCoordinates = [
+			{ lat: 23.5675381521504, lng: 119.56438862367058 },
+			{ lat: 23.56949317174456, lng: 119.56917991534476 },
+			{ lat: 23.570225819911716, lng: 119.57122153901541 },
+			{ lat: 23.5719236723256, lng: 119.5749521865086 },
+			{ lat: 23.573073147587632, lng: 119.57713845436042 },
+			{ lat: 23.57541864559125, lng: 119.57797353901573 },
+			{ lat: 23.57438976922724, lng: 119.57985953460236 },
+			{ lat: 23.57463597061213, lng: 119.5771316219097 },
+			{ lat: 23.5756743121072, lng: 119.57540192923092 },
+			{ lat: 23.576359166392947, lng: 119.57275 },
+			{ lat: 23.578194542841686, lng: 119.57739214681725 },
+			{ lat: 23.579834326540187, lng: 119.57924172883621 },
+			{ lat: 23.58096147284951, lng: 119.57672282737785 },
+			{ lat: 23.582505635259647, lng: 119.57306782737783 },
+			{ lat: 23.584473297678823, lng: 119.57140726785204 },
+			{ lat: 23.582921900445545, lng: 119.57132262825588 },
+			{ lat: 23.58190051309897, lng: 119.57144034723414 },
+			{ lat: 23.577809642298206, lng: 119.57134999668801 },
+			{ lat: 23.575851478594387, lng: 119.57109581017951 },
+			{ lat: 23.574354315032796, lng: 119.57012253901564 },
+			{ lat: 23.568332656498537, lng: 119.56609026785188 },
+			{ lat: 23.56609882211793, lng: 119.56531831875029 },
+			{ lat: 23.565006185112146, lng: 119.56597145767239 },
+			{ lat: 23.56439285406662, lng: 119.56515742232065 },
+			{ lat: 23.56382100018398, lng: 119.56400543716205 },
+			{ lat: 23.567557820023513, lng: 119.56444226785155 }   // 終點座標
+		];
+
+      var path = new google.maps.Polyline({
+        path: pathCoordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+
+      path.setMap(map);
+	 
+    }
+	
+	//公車的https://cdn-icons-png.flaticon.com/128/1023/1023464.png
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsGqyznxrqASeauZoR_9BGfGvpKeC19lc&callback=initMap" async defer></script>
+</body>
+</html>
